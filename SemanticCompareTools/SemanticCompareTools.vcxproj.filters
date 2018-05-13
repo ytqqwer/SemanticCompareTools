@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="源文件\Recorder">
+      <UniqueIdentifier>{c2d92b0a-0313-4cf9-8752-cb9dde816ddd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Reader">
+      <UniqueIdentifier>{e5827225-7799-4ba1-98e7-ce7e8fd554a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Window">
+      <UniqueIdentifier>{78137ca0-7783-45f2-b7ab-9f6e3087828a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\ModelWindow">
+      <UniqueIdentifier>{d3a9339b-101c-4ab0-bc15-96b6fe3c3650}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Window">
+      <UniqueIdentifier>{9d2e7936-269a-4e56-8932-7466e8a6e6a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Reader">
+      <UniqueIdentifier>{6a8d50db-4a8d-4f73-a0f1-7d56831d1d46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Recorder">
+      <UniqueIdentifier>{5f15f03c-61ae-489d-8b1e-ef7896b6fff0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\ModelWindow">
+      <UniqueIdentifier>{60091a61-4d00-4563-9a4c-b31a30f1ba2e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SemanticCompareTools.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="xWindowModule.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="senseAlignmentWindow.h">
+      <Filter>头文件\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="xWindow.h">
+      <Filter>头文件\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="IniFile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XlsxFile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Recorder.h">
+      <Filter>头文件\Recorder</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="csReader.h">
+      <Filter>头文件\Reader</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchDictionaryWindow.h">
+      <Filter>头文件\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="sdReader.h">
+      <Filter>头文件\Reader</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingModelWindow.h">
+      <Filter>头文件\ModelWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="WordDetailWindow.h">
+      <Filter>头文件\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckSimilarityWindow.h">
+      <Filter>头文件\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowClassRegister.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectFunctionWindow.h">
+      <Filter>头文件\Window</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SemanticCompareTools.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="xWindowModule.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="senseAlignmentWindow.cpp">
+      <Filter>源文件\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="xWindow.cpp">
+      <Filter>源文件\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="IniFile.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XlsxFile.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Recorder.cpp">
+      <Filter>源文件\Recorder</Filter>
+    </ClCompile>
+    <ClCompile Include="util.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="csReader.cpp">
+      <Filter>源文件\Reader</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchDictionaryWindow.cpp">
+      <Filter>源文件\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="sdReader.cpp">
+      <Filter>源文件\Reader</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingModelWindow.cpp">
+      <Filter>源文件\ModelWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="WordDetailWindow.cpp">
+      <Filter>源文件\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckSimilarityWindow.cpp">
+      <Filter>源文件\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowClassRegister.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectFunctionWindow.cpp">
+      <Filter>源文件\Window</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SemanticCompareTools.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="SemanticCompareTools.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
