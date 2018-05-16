@@ -3,7 +3,7 @@
 #include "xWindow.h"
 
 class csReader;
-class Recorder;
+class csRecorder;
 
 class CheckSimilarityWindow : public xWindow
 {
@@ -36,23 +36,19 @@ private:
 	void resetPartOfSpeech();
 	void refreshListView();
 	
+	void insertAllRecord();
+
 private:
 	csReader * reader;
-	Recorder * recorder;
+	csRecorder * recorder;
 
-/////////////////////////////////////////////
 private:
-
 	int rowOfWord;
 	int numberOfItem;
-	
 
 	std::wstring szFilePath;
-/////////////////////////////////////////////
-
 
 private:
-
 	HWND hSearchEdit;
 	HWND hSearchButton;
 	HWND hClassComboBox;
@@ -70,4 +66,3 @@ private:
 	HWND hNextWordButton;
 	HWND hPrevWordButton;
 };
-

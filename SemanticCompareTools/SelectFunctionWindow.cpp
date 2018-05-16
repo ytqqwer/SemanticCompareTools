@@ -92,7 +92,7 @@ LRESULT SelectFunctionWindow::processMessage(HWND hWnd, UINT message, WPARAM wPa
 		case ID_BUTTON_OK: {
 			if (SendMessage(senseAlignmentHandle, BM_GETCHECK, 0, 0) == TRUE)// «∑Ò¥Úπ¥¡À 
 			{
-				senseAlignmentWindow* saw = new senseAlignmentWindow(hInstance);
+				SenseAlignmentWindow* saw = new SenseAlignmentWindow(hInstance);
 				winModule.changeWindow(saw);
 			}
 			else if (SendMessage(checkSimilarityHandle, BM_GETCHECK, 0, 0) == TRUE)

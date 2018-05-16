@@ -2,11 +2,14 @@
 
 #include "xWindow.h"
 
-class senseAlignmentWindow : public xWindow
+class saReader;
+class saRecorder;
+
+class SenseAlignmentWindow : public xWindow
 {
 public:
-	senseAlignmentWindow(HINSTANCE);
-	~senseAlignmentWindow();
+	SenseAlignmentWindow(HINSTANCE);
+	~SenseAlignmentWindow();
 
 	virtual void registerClass() override;
 	virtual void initWindow() override;
@@ -18,7 +21,22 @@ public:
 	static LRESULT CALLBACK searchEditProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 private:
+	void search();
+	void openFiles();
 
+	void next();
+	void prev();
+
+	void refreshMainWindow();
+	void resetPartOfSpeech();
+
+	void recordMappingRelation(const std::string&);
+
+private:
+	saReader * reader;
+	saRecorder * recorder;
+
+private:
 	HWND hSearchEdit;
 	HWND hSearchButton;
 	HWND hClassComboBox;
@@ -35,10 +53,10 @@ private:
 
 	HWND hRelationEqualButton; 
 	HWND hRelationNotEqualButton;
-	HWND hRelationUnsureButton;
 	HWND hRelationBelongButton;
+	HWND hRelationUnsureButton;
 
-	HWND hDetailButton;
+	HWND hPrevWordButton;
 	HWND hNextWordButton;
 
 };

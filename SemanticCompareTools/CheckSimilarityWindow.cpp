@@ -6,7 +6,9 @@
 
 #include "IniFile.h"
 #include "csReader.h"
-#include "Recorder.h"
+#include "csRecorder.h"
+
+#include <set>
 
 extern xWindowModule winModule;
 
@@ -14,20 +16,6 @@ extern xWindowModule winModule;
 WNDPROC CheckSimilarityWindow::oldSearchEditProc = NULL;
 static CheckSimilarityWindow* myWindow;
 
-const std::wstring PART_OF_SPEECH_DAI = L"r";
-const std::wstring PART_OF_SPEECH_DONG = L"v";
-const std::wstring PART_OF_SPEECH_FU = L"d";
-const std::wstring PART_OF_SPEECH_JIE = L"p";
-const std::wstring PART_OF_SPEECH_LIAN = L"c";
-const std::wstring PART_OF_SPEECH_LIANG = L"q";
-const std::wstring PART_OF_SPEECH_MING = L"n";
-const std::wstring PART_OF_SPEECH_NI = L"o";
-const std::wstring PART_OF_SPEECH_SHU = L"m";
-const std::wstring PART_OF_SPEECH_TAN = L"e";
-const std::wstring PART_OF_SPEECH_WEI = L"未";
-const std::wstring PART_OF_SPEECH_XING = L"a";
-const std::wstring PART_OF_SPEECH_ZHU = L"u";
-const std::wstring PART_OF_SPEECH_ZHUI = L"缀";
 
 CheckSimilarityWindow::CheckSimilarityWindow(HINSTANCE instance) : xWindow(instance)
 {
@@ -35,7 +23,7 @@ CheckSimilarityWindow::CheckSimilarityWindow(HINSTANCE instance) : xWindow(insta
 	wcscpy_s(title, L"词义对比");
 		
 	reader = new csReader();
-	recorder = new Recorder();
+	recorder = new csRecorder();
 	recorder->Init();
 }
 
@@ -94,10 +82,17 @@ void CheckSimilarityWindow::initWindow()
 	//////////////////////////////////////////////////////////////////////
 	//初始化搜索编辑框
 	myWindow = this;
+
 	hSearchEdit = CreateWindow(_T("EDIT"), NULL, WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL | ES_LEFT,
 		70, 10, 200, 30, hWnd, (HMENU)ID_EDIT_SEARCH, hInstance, NULL);
 	//设置处理过程
-	oldSearchEditProc = (WNDPROC)SetWindowLongPtr(hSearchEdit, GWLP_WNDPROC, (LONG_PTR)searchEditProc);
+	CheckSimilarityWindow::oldSearchEditProc = 
+		(WNDPROC)SetWindowLongPtr(hSearchEdit, GWLP_WNDPROC, (LONG_PTR)CheckSimilarityWindow::searchEditProc);
+
+	//////////////////////////////////////////////////////////////////////
+	//初始化搜索按钮
+	hSearchButton = CreateWindow(_T("BUTTON"), _T("搜索"), WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON,
+		310, 10, 100, 30, hWnd, (HMENU)ID_BUTTON_SEARCH, hInstance, NULL);
 
 	//////////////////////////////////////////////////////////////////////
 	//初始化类别下拉列表
@@ -124,11 +119,6 @@ void CheckSimilarityWindow::initWindow()
 
 	// Send the CB_SETCURSEL message to display an initial item in the selection field  
 	SendMessage(hClassComboBox, CB_SETCURSEL, (WPARAM)0, (LPARAM)0);
-
-	//////////////////////////////////////////////////////////////////////
-	//初始化搜索按钮
-	hSearchButton = CreateWindow(_T("BUTTON"), _T("搜索"), WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON,
-		310, 10, 100, 30, hWnd, (HMENU)ID_BUTTON_SEARCH, hInstance, NULL);
 
 	//////////////////////////////////////////////////////////////////////
 	//初始化文本	
@@ -306,7 +296,7 @@ BOOL CheckSimilarityWindow::activeControls(bool boolean)
 	EnableWindow(hPrevWordButton, boolean);
 	EnableWindow(hNextWordButton, boolean);
 
-	return 0;
+	return true;
 }
 
 void CheckSimilarityWindow::search()
@@ -498,7 +488,7 @@ void CheckSimilarityWindow::refreshListView()
 	//词典2
 	numberOfItem = neededRows.second.size();
 
-	for (unsigned int i = 0; i < numberOfItem; i++)
+	for (int i = 0; i < numberOfItem; i++)
 	{
 		unsigned int row = neededRows.second[i];
 
@@ -560,6 +550,83 @@ void CheckSimilarityWindow::resetPartOfSpeech()
 	(TCHAR)SendMessage(hClassComboBox, (UINT)CB_GETLBTEXT, (WPARAM)ItemIndex, (LPARAM)part_of_speech);
 
 	reader->setPartOfSpeech(WTS_U8(part_of_speech));
+
+}
+
+void CheckSimilarityWindow::insertAllRecord()
+{
+
+	do
+	{
+		std::pair<unsigned int, std::vector<unsigned int>>& neededRows = reader->getRowsByIsomorphicIndex();
+		
+		std::string& word = reader->getValueInColumnByRow(neededRows.first, u8"gkb_词语");
+		std::string& pos = reader->getValueInColumnByRow(neededRows.first, u8"gkb_词类");
+		std::string& alphabetic = reader->getValueInColumnByRow(neededRows.first, u8"gkb_拼音");
+		std::string& isomorphic = reader->getValueInColumnByRow(neededRows.first, u8"gkb_同形");
+		std::string& meanings = reader->getValueInColumnByRow(neededRows.first, u8"gkb_释义");
+		std::string& example = reader->getValueInColumnByRow(neededRows.first, u8"gkb_例句");
+
+		//从记录中寻找是否存在完全符合的词语
+		if (recorder->findRecord(word, pos, alphabetic, isomorphic, meanings, example))
+		{
+			continue;
+		}
+		//没有找到相同记录，自动判断相似度大小关系，添加新纪录
+		else
+		{
+			std::vector<std::pair<std::string,double>> ids_sims;
+			for (auto& row : neededRows.second) 
+			{
+				std::string& id = reader->getValueInColumnByRow(row, u8"ID");
+				std::string& sim = reader->getValueInColumnByRow(row, u8"相似度");
+
+				if (sim == "")
+					ids_sims.push_back(std::make_pair(id, 0.00));
+				else
+					ids_sims.push_back(std::make_pair(id, std::stod(sim) ) );
+			}
+
+
+
+			std::vector<std::string> biggestSimId;
+			double biggest = 0.0;
+
+			for (auto& id_sim : ids_sims) 
+			{
+				double similarity = id_sim.second;
+
+				if (similarity > biggest) {
+					biggestSimId.clear();
+					biggest = similarity;
+					biggestSimId.push_back(id_sim.first);
+				}
+				else if (similarity == biggest) {
+					biggestSimId.push_back(id_sim.first);
+				}
+			}
+
+			//插入新的记录
+			std::vector<std::string> vector;			
+			vector.push_back(word);
+			vector.push_back(pos);
+			vector.push_back(alphabetic);
+			vector.push_back(isomorphic);
+			vector.push_back(meanings);
+			vector.push_back(example);
+
+			std::set<std::string> idSet;
+			for (auto& id : biggestSimId) {
+				idSet.insert(id);
+			}
+			std::vector<std::string> ids;
+			for (auto& id : idSet) {
+				ids.push_back(id);
+			}
+			recorder->insertNewRecord(vector, ids);
+		}
+	} while (reader->toNextIsomorphicOfCurWord() || reader->nextWord());
+
 }
 
 void CheckSimilarityWindow::setCheckState()
@@ -582,11 +649,11 @@ void CheckSimilarityWindow::setCheckState()
 	//从记录中寻找是否存在完全符合的词语
 	if (recorder->findRecord(word, pos, alphabetic, isomorphic, meanings, example))
 	{
-		std::vector<std::string> IDs = recorder->getIDs();
+		std::vector<std::string> IDs = recorder->getIDsAfterFind();
 
 		for (auto& id : IDs)
 		{
-			for (unsigned int i = 0; i < numberOfItem; i++)
+			for (int i = 0; i < numberOfItem; i++)
 			{
 				//取ID
 				ListView_GetItemText(hDictionaryListView_Two, i, 0, buf, 256);
@@ -600,84 +667,85 @@ void CheckSimilarityWindow::setCheckState()
 		}
 
 	}
+
 	//没有找到相同记录，自动判断相似度大小关系，自动打勾，取打勾结果，添加新纪录
-	else if (numberOfItem > 0)
-	{
-		ListView_GetItemText(hDictionaryListView_Two, 0, 7, buf, 256);
-		std::wstring wstr = buf;
-		double biggest;
-		if (wstr == L"") {
-			biggest = 0.0;
-		}
-		else {
-			biggest = std::stod(buf);
+	//else if (numberOfItem > 0)
+	//{
+	//	ListView_GetItemText(hDictionaryListView_Two, 0, 7, buf, 256);
+	//	std::wstring wstr = buf;
+	//	double biggest;
+	//	if (wstr == L"") {
+	//		biggest = 0.0;
+	//	}
+	//	else {
+	//		biggest = std::stod(buf);
 
-		}
+	//	}
 
-		//取首个相似度
-		std::vector<unsigned int> indexToCheck;
-		indexToCheck.push_back(0);
+	//	//取首个相似度
+	//	std::vector<unsigned int> indexToCheck;
+	//	indexToCheck.push_back(0);
 
-		for (unsigned int i = 1; i < numberOfItem; i++)
-		{
-			ListView_GetItemText(hDictionaryListView_Two, i, 7, buf, 256);
-			std::wstring wstr = buf;
+	//	for (unsigned int i = 1; i < numberOfItem; i++)
+	//	{
+	//		ListView_GetItemText(hDictionaryListView_Two, i, 7, buf, 256);
+	//		std::wstring wstr = buf;
 
-			if (wstr == L"") {
-				continue;
-			}
-			else {
-				double similarity;
-				similarity = std::stod(buf);
-				if (similarity > biggest)
-				{
-					indexToCheck.clear();
-					biggest = similarity;
-					indexToCheck.push_back(i);
-				}
-				else if (similarity == biggest) {
-					indexToCheck.push_back(i);
-				}
+	//		if (wstr == L"") {
+	//			continue;
+	//		}
+	//		else {
+	//			double similarity;
+	//			similarity = std::stod(buf);
+	//			if (similarity > biggest)
+	//			{
+	//				indexToCheck.clear();
+	//				biggest = similarity;
+	//				indexToCheck.push_back(i);
+	//			}
+	//			else if (similarity == biggest) {
+	//				indexToCheck.push_back(i);
+	//			}
 
-			}
-		}
+	//		}
+	//	}
 
-		for (unsigned int index : indexToCheck) {
-			ListView_SetCheckState(hDictionaryListView_Two, index, TRUE);
-		}
+	//	for (unsigned int index : indexToCheck) {
+	//		ListView_SetCheckState(hDictionaryListView_Two, index, TRUE);
+	//	}
 
-		//////////////////////////////////////////////////////////////
-		//存储选取的id
-		std::vector<std::string> ids;
-		for (unsigned int i = 0; i < numberOfItem; i++)
-		{
-			if (ListView_GetCheckState(hDictionaryListView_Two, i)) {
+	//	//////////////////////////////////////////////////////////////
+	//	//存储选取的id
+	//	std::vector<std::string> ids;
+	//	for (unsigned int i = 0; i < numberOfItem; i++)
+	//	{
+	//		if (ListView_GetCheckState(hDictionaryListView_Two, i)) {
 
-				TCHAR buffer[256];
-				ListView_GetItemText(hDictionaryListView_Two, i, 0, buffer, 256);
+	//			TCHAR buffer[256];
+	//			ListView_GetItemText(hDictionaryListView_Two, i, 0, buffer, 256);
 
-				ids.push_back(WTS_U8(buffer));
-			}
-		}
+	//			ids.push_back(WTS_U8(buffer));
+	//		}
+	//	}
 
-		//插入新的记录
-		std::vector<std::string> vector;
-		std::string str;
-		str = reader->getValueInColumnByRow(rowOfWord, u8"gkb_词语");
-		vector.push_back(str);
-		str = reader->getValueInColumnByRow(rowOfWord, u8"gkb_词类");
-		vector.push_back(str);
-		str = reader->getValueInColumnByRow(rowOfWord, u8"gkb_拼音");
-		vector.push_back(str);
-		str = reader->getValueInColumnByRow(rowOfWord, u8"gkb_同形");
-		vector.push_back(str);
-		str = reader->getValueInColumnByRow(rowOfWord, u8"gkb_释义");
-		vector.push_back(str);
-		str = reader->getValueInColumnByRow(rowOfWord, u8"gkb_例句");
-		vector.push_back(str);
+	//	//插入新的记录
+	//	std::vector<std::string> vector;
+	//	std::string str;
+	//	str = reader->getValueInColumnByRow(rowOfWord, u8"gkb_词语");
+	//	vector.push_back(str);
+	//	str = reader->getValueInColumnByRow(rowOfWord, u8"gkb_词类");
+	//	vector.push_back(str);
+	//	str = reader->getValueInColumnByRow(rowOfWord, u8"gkb_拼音");
+	//	vector.push_back(str);
+	//	str = reader->getValueInColumnByRow(rowOfWord, u8"gkb_同形");
+	//	vector.push_back(str);
+	//	str = reader->getValueInColumnByRow(rowOfWord, u8"gkb_释义");
+	//	vector.push_back(str);
+	//	str = reader->getValueInColumnByRow(rowOfWord, u8"gkb_例句");
+	//	vector.push_back(str);
 
-		recorder->insertNewRecord(vector, ids);
-	}
+	//	recorder->insertNewRecord(vector, ids);
+	//}
 
 
 }
@@ -686,7 +754,7 @@ void CheckSimilarityWindow::check()
 {
 	//存储选取的id，使用string类型记录，虽然效率会差很多
 	std::vector<std::string> ids;
-	for (unsigned int i = 0; i < numberOfItem; i++)
+	for (int i = 0; i < numberOfItem; i++)
 	{
 		if (ListView_GetCheckState(hDictionaryListView_Two, i)) {
 
@@ -741,7 +809,20 @@ LRESULT CheckSimilarityWindow::processMessage(HWND hWnd, UINT message, WPARAM wP
 			//此时才需要替换词类，打开文件时也会根据列表内容再选择一次词类
 			if (reader->isExistingFile()) {
 				resetPartOfSpeech();
-				refreshMainWindow();
+
+				std::pair<unsigned int, std::vector<unsigned int>>& neededRows = reader->getRowsByIsomorphicIndex();
+				numberOfItem = neededRows.second.size();
+
+				if (numberOfItem == 0) {
+					refreshMainWindow();
+				}
+				else {
+					insertAllRecord();
+
+					resetPartOfSpeech();
+					refreshMainWindow();
+				}
+
 			}
 		}
 		break;
@@ -785,15 +866,26 @@ LRESULT CheckSimilarityWindow::processMessage(HWND hWnd, UINT message, WPARAM wP
 			loadFiles();
 
 			if (reader->isExistingFile()) {
+				// 激活某些控件
+				activeControls(TRUE);
 
 				// 打开文件后默认显示当前词类选择列表中指定的表格，刷新主窗口
 				// 这样当未打开文件时，也可以随便选择词类，但是不会产生效果
 				resetPartOfSpeech();
-				// 激活某些控件
-				activeControls(TRUE);
 
-				refreshMainWindow();
-			
+				std::pair<unsigned int, std::vector<unsigned int>>& neededRows = reader->getRowsByIsomorphicIndex();
+				numberOfItem = neededRows.second.size();
+
+				if (numberOfItem == 0) {
+					refreshMainWindow();					
+				}
+				else {
+					insertAllRecord();
+
+					resetPartOfSpeech();
+					refreshMainWindow();
+				}
+
 			}
 
 		}

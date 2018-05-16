@@ -2,23 +2,22 @@
 
 #include "xlnt/xlnt.hpp"
 
-class Recorder
+class csRecorder
 {
 public:
-	Recorder();
-	~Recorder();
+	csRecorder();
+	~csRecorder();
 
 	void Init();
 
+	void save();
+
 	void insertNewRecord(const std::vector<std::string>& word, const std::vector<std::string>& ids);
 	
-	void toNextWord();
-
 	bool findRecord(const std::string&, const  std::string&, const  std::string&, const std::string&, const  std::string&, const  std::string&);
-	
-	void save();
-	
-	std::vector<std::string> getIDs();
+		
+	std::vector<std::string> getIDsAfterFind();
+
 	void updateIDs(const std::vector<std::string>&);
 
 private:
@@ -32,7 +31,7 @@ private:
 	unsigned int curRow;
 	unsigned int insertRow;
 
-	unsigned int foundedRowOfID;
+	std::multimap<std::string, int> selWords;
 
 	std::vector<std::string> IDs;
 };

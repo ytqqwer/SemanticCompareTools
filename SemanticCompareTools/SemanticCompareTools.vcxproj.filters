@@ -57,9 +57,6 @@
     <ClInclude Include="xWindowModule.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="senseAlignmentWindow.h">
-      <Filter>头文件\Window</Filter>
-    </ClInclude>
     <ClInclude Include="xWindow.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
@@ -68,9 +65,6 @@
     </ClInclude>
     <ClInclude Include="XlsxFile.h">
       <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Recorder.h">
-      <Filter>头文件\Recorder</Filter>
     </ClInclude>
     <ClInclude Include="util.h">
       <Filter>头文件</Filter>
@@ -99,6 +93,18 @@
     <ClInclude Include="SelectFunctionWindow.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
+    <ClInclude Include="SenseAlignmentWindow.h">
+      <Filter>头文件\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="csRecorder.h">
+      <Filter>头文件\Recorder</Filter>
+    </ClInclude>
+    <ClInclude Include="saReader.h">
+      <Filter>头文件\Reader</Filter>
+    </ClInclude>
+    <ClInclude Include="saRecorder.h">
+      <Filter>头文件\Recorder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -110,9 +116,6 @@
     <ClCompile Include="xWindowModule.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="senseAlignmentWindow.cpp">
-      <Filter>源文件\Window</Filter>
-    </ClCompile>
     <ClCompile Include="xWindow.cpp">
       <Filter>源文件\Window</Filter>
     </ClCompile>
@@ -122,17 +125,11 @@
     <ClCompile Include="XlsxFile.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Recorder.cpp">
-      <Filter>源文件\Recorder</Filter>
-    </ClCompile>
     <ClCompile Include="util.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="csReader.cpp">
       <Filter>源文件\Reader</Filter>
-    </ClCompile>
-    <ClCompile Include="SearchDictionaryWindow.cpp">
-      <Filter>源文件\Window</Filter>
     </ClCompile>
     <ClCompile Include="sdReader.cpp">
       <Filter>源文件\Reader</Filter>
@@ -151,6 +148,21 @@
     </ClCompile>
     <ClCompile Include="SelectFunctionWindow.cpp">
       <Filter>源文件\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchDictionaryWindow.cpp">
+      <Filter>源文件\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="SenseAlignmentWindow.cpp">
+      <Filter>源文件\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="csRecorder.cpp">
+      <Filter>源文件\Recorder</Filter>
+    </ClCompile>
+    <ClCompile Include="saReader.cpp">
+      <Filter>源文件\Reader</Filter>
+    </ClCompile>
+    <ClCompile Include="saRecorder.cpp">
+      <Filter>源文件\Recorder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

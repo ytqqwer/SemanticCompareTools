@@ -2,11 +2,11 @@
 
 #include "xlnt/xlnt.hpp"
 
-class csReader
+class saReader
 {
 public:
-	csReader();
-	~csReader();
+	saReader();
+	~saReader();
 
 	void clear();
 	void reset();
@@ -14,37 +14,29 @@ public:
 
 	void addXlsxFileName(const std::string& filename);
 	void loadXlsxFile(const std::string& pattern, const std::string& partOfSpeech, const std::string& path);
-	
+
 	bool prevWord();
-	bool toPrevIsomorphicOfCurWord();
 	bool nextWord();
-	bool toNextIsomorphicOfCurWord();
 
 	bool findWord(const std::string& word);
 
 public:
 	bool setPartOfSpeech(const std::string&);
 
-	void setColumnNames(const std::vector<std::string>& columnNames);
+	void setColumnNames(const std::vector<std::string>& names);
 	void setWordColumnName(const std::string& columnName);
-
-	std::pair<unsigned int, std::vector<unsigned int>> getRowsByIsomorphicIndex();
-
-	std::string getValueInColumnByRow(unsigned int row,const std::string& columnName);
 	
-	unsigned int getIsomorphicNumberOfCurWord();
-	
+	int getCurRowIndex();
+	std::string getValueInColumnByRow(unsigned int row, const std::string& columnName);
+
 private:
 	unsigned int calMaxRow(xlnt::range&);
 
 	bool skipEmptyWorkbook();
-	void changeWorkbook(unsigned int index = 0);
+	void changeWorkbook(unsigned int index);
 
 	bool nextWorkbook();
 	bool prevWorkbook();
-
-	void selectPreviousIsomorphicWordGroup(unsigned int row);
-	void selectNextIsomorphicWordGroup(unsigned int row);
 
 	void selectColumn(unsigned int workbookIndex);
 
@@ -52,14 +44,10 @@ private:
 	bool existingFile;
 
 private:
+
 	unsigned int curWorkbookIndex;
+	unsigned int curRow;
 	unsigned int maxRow;
-	
-	unsigned int curRow;		
-	unsigned int curRowRangeBegin;//当前词组范围
-	unsigned int curRowRangeEnd;
-	
-	unsigned int curIsomorphicIndex;
 
 	std::string curPartOfSpeech;
 	std::string wordColumnName;
@@ -72,8 +60,6 @@ private:
 
 	std::unordered_map<std::string, xlnt::cell_vector> selColumns;	//根据传入的列名，保存对应的列
 
-	std::multimap<std::string , int> selWordColumn;
-	
-	std::vector<std::pair<unsigned int , std::vector<unsigned int>>> selRows;	//词语所在行 以及 对应同形词语所在的行
-		
+	std::multimap<std::string, int> selWordColumn;
+
 };

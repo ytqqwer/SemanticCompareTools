@@ -186,14 +186,16 @@
     <ClInclude Include="CheckSimilarityWindow.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="csReader.h" />
+    <ClInclude Include="saReader.h" />
+    <ClInclude Include="saRecorder.h" />
     <ClInclude Include="sdReader.h" />
     <ClInclude Include="IniFile.h" />
-    <ClInclude Include="Recorder.h" />
+    <ClInclude Include="csRecorder.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SearchDictionaryWindow.h" />
     <ClInclude Include="SelectFunctionWindow.h" />
     <ClInclude Include="SemanticCompareTools.h" />
-    <ClInclude Include="senseAlignmentWindow.h" />
+    <ClInclude Include="SenseAlignmentWindow.h" />
     <ClInclude Include="SettingModelWindow.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -207,13 +209,15 @@
   <ItemGroup>
     <ClCompile Include="CheckSimilarityWindow.cpp" />
     <ClCompile Include="csReader.cpp" />
+    <ClCompile Include="saReader.cpp" />
+    <ClCompile Include="saRecorder.cpp" />
     <ClCompile Include="sdReader.cpp" />
     <ClCompile Include="IniFile.cpp" />
-    <ClCompile Include="Recorder.cpp" />
+    <ClCompile Include="csRecorder.cpp" />
     <ClCompile Include="SearchDictionaryWindow.cpp" />
     <ClCompile Include="SelectFunctionWindow.cpp" />
     <ClCompile Include="SemanticCompareTools.cpp" />
-    <ClCompile Include="senseAlignmentWindow.cpp" />
+    <ClCompile Include="SenseAlignmentWindow.cpp" />
     <ClCompile Include="SettingModelWindow.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

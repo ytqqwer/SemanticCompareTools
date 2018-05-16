@@ -68,12 +68,12 @@ void SettingModelWindow::initWindow()
 
 	//////////////////////////////////////////////////////////////////////
 
-	hDicNameText = CreateWindow(_T("static"), _T("词典名"), WS_CHILD | WS_VISIBLE | SS_LEFT, 25, 560, 50, 30, hWnd,
+	hDicNameText = CreateWindow(_T("static"), _T("词典名"), WS_CHILD | WS_VISIBLE | SS_LEFT, 25, 560, 70, 30, hWnd,
 		NULL, hInstance, NULL);
 
 	//词典名编辑框
 	hDicNameEdit = CreateWindow(_T("EDIT"), NULL, WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL | ES_LEFT,
-		80, 550, 180, 30, hWnd, (HMENU)ID_EDIT_DIC_NAME, hInstance, NULL);
+		100, 550, 180, 30, hWnd, (HMENU)ID_EDIT_DIC_NAME, hInstance, NULL);
 
 	TCHAR temp[100];
 	IniFile::getInstance()->GetProfileStringWithPath(L"", L"CustomDicName", temp);
@@ -187,12 +187,12 @@ void SettingModelWindow::initWindow()
 
 		//词类名编辑框
 		HWND hPOSEdit = CreateWindow(_T("EDIT"), NULL, WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL | ES_LEFT,
-			350, 15, 200, 30, hWnd, (HMENU)ID_EDIT_PART_OF_SPEECH, hInstance, NULL);
+			380, 15, 200, 30, hWnd, (HMENU)ID_EDIT_PART_OF_SPEECH, hInstance, NULL);
 		SendMessage(hPOSEdit, WM_SETFONT, (WPARAM)hFont, TRUE);
 		fncn.hPOSEdit = hPOSEdit;
 	}
 
-	hPosText = CreateWindow(_T("static"), _T("自定义词类"), WS_CHILD | WS_VISIBLE | SS_LEFT, 260, 25, 70, 30, hWnd,
+	hPosText = CreateWindow(_T("static"), _T("自定义词类"), WS_CHILD | WS_VISIBLE | SS_LEFT, 270, 25, 100, 30, hWnd,
 		NULL, hInstance, NULL);
 	SendMessage(hPosText, WM_SETFONT, (WPARAM)GetStockObject(17), 0);
 
