@@ -20,8 +20,6 @@ public:
 	// 返回窗口对象句柄
 	HWND getHandle();
 
-	void messageLoop();
-
 public:
 	virtual void registerClass() = 0;
 	virtual void initWindow() = 0;

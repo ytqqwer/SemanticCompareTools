@@ -21,7 +21,6 @@ public:
 	HINSTANCE getInstance();
 	
 public:
-	// 原始窗口过程  
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	static void postQuitMessage();

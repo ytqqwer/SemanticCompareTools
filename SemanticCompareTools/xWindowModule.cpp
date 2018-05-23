@@ -2,7 +2,6 @@
 #include "xWindowModule.h"
 
 #include "xWindow.h"
-#include "IniFile.h"
 
 extern xWindowModule winModule;
 
@@ -30,7 +29,13 @@ void xWindowModule::changeWindow(xWindow* window)
 	activeWindow = window;
 	activeWindow->create();
 	activeWindow->display();
-	activeWindow->messageLoop();
+	//activeWindow->messageLoop();
+	MSG msg;
+	while (GetMessage(&msg, nullptr, 0, 0))
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
 }
 
 void xWindowModule::createModelWindow(xWindow * window, HWND hParent)
@@ -46,7 +51,13 @@ void xWindowModule::createModelWindow(xWindow * window, HWND hParent)
 		hParentWnd = GetParent(hParentWnd);
 	}
 
-	window->messageLoop();
+	//window->messageLoop();
+	MSG msg;
+	while (GetMessage(&msg, nullptr, 0, 0))
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
 
 	// »Ö¸´¸¸´°¿Úenable×´Ì¬  
 	hParentWnd = hParent;

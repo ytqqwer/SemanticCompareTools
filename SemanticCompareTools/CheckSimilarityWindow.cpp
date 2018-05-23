@@ -16,11 +16,10 @@ extern xWindowModule winModule;
 WNDPROC CheckSimilarityWindow::oldSearchEditProc = NULL;
 static CheckSimilarityWindow* myWindow;
 
-
 CheckSimilarityWindow::CheckSimilarityWindow(HINSTANCE instance) : xWindow(instance)
 {
 	wcscpy_s(className, L"CheckSimilarityWindow");
-	wcscpy_s(title, L"词义对比");
+	wcscpy_s(title, L"相似度检查");
 		
 	reader = new csReader();
 	recorder = new csRecorder();
