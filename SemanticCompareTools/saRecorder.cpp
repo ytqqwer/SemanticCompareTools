@@ -112,7 +112,6 @@ bool saRecorder::findRecord(const std::vector<std::string>& datas)
 				datas[10] == row[10].to_string() &&	//gkb_同形
 				datas[11] == row[11].to_string() &&	//gkb_释义
 				datas[12] == row[12].to_string() 	//gkb_例句
-				//&& datas[13] == row[13].to_string() 	//映射关系
 			) {		
 			//设置当前行
 			curRow = index;
@@ -128,10 +127,6 @@ void saRecorder::updateMappingRelation(const std::string& relation)
 	auto& ws = wb.active_sheet();
 	auto& cell = ws.cell(15, curRow);
 
-	//auto& rows = ws.rows(false);
-	//auto& row = rows[curRow - 1];
-	//auto& cell = row[14];//新映射关系
-
 	cell.value(relation);
 }
 
@@ -140,10 +135,5 @@ std::string saRecorder::getNewMappingRelation()
 	auto& ws = wb.active_sheet();
 	auto& cell = ws.cell(15, curRow);
 
-	//auto& rows = ws.rows(false);
-	//auto& row = rows[curRow - 1];
-	//auto& cell = row[14];//新映射关系
-
-	//return std::string();
 	return cell.to_string();	
 }

@@ -180,6 +180,7 @@ void csRecorder::updateIDs(const std::vector<std::string>& IDs)
 	auto& cell = row[6];
 
 	std::string str;
+
 	for (auto& id : IDs)
 	{
 		str = str + "," + id;

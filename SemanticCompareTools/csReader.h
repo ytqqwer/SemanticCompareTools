@@ -61,8 +61,8 @@ private:
 	
 	unsigned int curIsomorphicIndex;
 
-	std::string curPartOfSpeech;
 	std::string wordColumnName;
+	std::string curPartOfSpeech;
 	std::string curWord;
 
 private:

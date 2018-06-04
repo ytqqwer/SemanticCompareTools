@@ -51,7 +51,6 @@ private:
 
 	std::string curPartOfSpeech;
 	std::string wordColumnName;
-	std::string curWord;
 
 private:
 	std::vector<std::string> fileNames;

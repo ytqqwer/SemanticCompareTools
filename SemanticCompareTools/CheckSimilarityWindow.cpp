@@ -746,7 +746,6 @@ void CheckSimilarityWindow::setCheckState()
 	//	recorder->insertNewRecord(vector, ids);
 	//}
 
-
 }
 
 void CheckSimilarityWindow::check()

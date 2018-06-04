@@ -469,8 +469,7 @@ void SenseAlignmentWindow::refreshMainWindow()
 	LVITEM vitem;
 	vitem.mask = LVIF_TEXT;
 	vitem.iItem = 0;
-
-
+	
 	str = reader->getValueInColumnByRow(row, u8"ID");
 	wstr = STW_U8(str);
 	vitem.iSubItem = 0;

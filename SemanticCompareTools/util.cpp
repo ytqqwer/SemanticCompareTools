@@ -53,7 +53,6 @@ void CharToTchar(const char * _char, TCHAR * tchar)
 	MultiByteToWideChar(CP_UTF8, 0, _char, strlen(_char) + 1, tchar, iLength);
 }
 
-
 void SplitString(const std::string& str, std::vector<std::string>& vector, const std::string& character)
 {
 	std::string::size_type pos1, pos2;

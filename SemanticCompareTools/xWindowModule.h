@@ -25,7 +25,8 @@ public:
 
 	static void postQuitMessage();
 
-	void* AddXWindowObject(HWND hWnd, void * pThis);
+	//void* AddXWindowObject(HWND hWnd, void * pThis);
+	void AddXWindowObject(HWND hWnd, void * pThis);
 	void* GetXWindowObject(HWND hWnd);
 	
 public:

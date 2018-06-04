@@ -89,40 +89,67 @@ HINSTANCE xWindowModule::getInstance()
 	return m_hInst;
 }
 
-LRESULT xWindowModule::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	void* p = winModule.GetXWindowObject(hWnd);
-
-	if (p == nullptr)
-	{
-		p = winModule.AddXWindowObject(hWnd, nullptr);
-	}
-
-	xWindow* ptr = static_cast<xWindow *>(p);
-	return ptr->processMessage(hWnd, message, wParam, lParam);
-}
-
 void xWindowModule::postQuitMessage()
 {
 
 	PostQuitMessage(0);
 }
 
-void* xWindowModule::AddXWindowObject(HWND hWnd, void* pThis)
+//LRESULT xWindowModule::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+//{
+//	void* p = winModule.GetXWindowObject(hWnd);
+//
+//	if (p == nullptr)
+//	{
+//		p = winModule.AddXWindowObject(hWnd, nullptr);
+//	}
+//
+//	xWindow* ptr = static_cast<xWindow *>(p);
+//	return ptr->processMessage(hWnd, message, wParam, lParam);
+//}
+
+//void* xWindowModule::AddXWindowObject(HWND hWnd, void* pThis)
+//{
+//	if (hWnd == nullptr)
+//	{
+//		pTempThis = pThis;
+//		return pTempThis;
+//	}
+//	else
+//	{
+//		m_MapObject.insert(std::make_pair(hWnd, pTempThis));
+//		void* p = pTempThis;
+//		pTempThis = nullptr;
+//		return p;
+//	}
+//
+//}
+
+LRESULT xWindowModule::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	void* p = winModule.GetXWindowObject(hWnd);
+
+	if (p == nullptr)
+	{
+		winModule.AddXWindowObject(hWnd, nullptr);
+		p = winModule.GetXWindowObject(hWnd);
+	}
+
+	xWindow* ptr = static_cast<xWindow *>(p);
+	return ptr->processMessage(hWnd, message, wParam, lParam);
+}
+
+void xWindowModule::AddXWindowObject(HWND hWnd, void* pThis)
 {
 	if (hWnd == nullptr)
 	{
 		pTempThis = pThis;
-		return pTempThis;
 	}
 	else
 	{
 		m_MapObject.insert(std::make_pair(hWnd, pTempThis));
-		void* p = pTempThis;
 		pTempThis = nullptr;
-		return p;
 	}
-
 }
 
 void* xWindowModule::GetXWindowObject(HWND hWnd)

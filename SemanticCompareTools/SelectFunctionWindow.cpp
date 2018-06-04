@@ -94,16 +94,19 @@ LRESULT SelectFunctionWindow::processMessage(HWND hWnd, UINT message, WPARAM wPa
 			{
 				SenseAlignmentWindow* saw = new SenseAlignmentWindow(hInstance);
 				winModule.changeWindow(saw);
+				return 0;
 			}
 			else if (SendMessage(checkSimilarityHandle, BM_GETCHECK, 0, 0) == TRUE)
 			{
 				CheckSimilarityWindow* ssw = new CheckSimilarityWindow(hInstance);
 				winModule.changeWindow(ssw);
+				return 0;
 			}
 			else if (SendMessage(searchDictionaryHandle, BM_GETCHECK, 0, 0) == TRUE)
 			{
 				SearchDictionaryWindow* sdw = new SearchDictionaryWindow(hInstance);
 				winModule.changeWindow(sdw);
+				return 0;
 			}
 		}	break;
 		default:
